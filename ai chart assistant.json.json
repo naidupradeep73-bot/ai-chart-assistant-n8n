@@ -1,0 +1,165 @@
+{
+  "name": "aiii",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "dfc07b7f-860f-45df-a437-37bc1d09fc87",
+      "name": "When chat message received",
+      "webhookId": "19c4c670-1958-49dc-bb5a-81baf9a29535"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an AI Chat Assistant.\n\nHelp the user with questions, programming, study, and data analysis.\n\nWhen the user asks about student data, use the Google Sheets tool to retrieve the required information.\n\nGive clear and accurate answers."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "e3dd39ca-f97a-453d-8563-66fca819e2fb",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        208
+      ],
+      "id": "5b903d12-001d-45a3-9e97-03bd1422058e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "d4v4VHLgT9YEsuC6",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "dddd2f6d-43d2-47d1-b65a-84291a216c12",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1gcSmL2HwdhbYr8k0u1-xb5s-_2egPS19JtA2wJf0g7o",
+          "mode": "list",
+          "cachedResultName": "Students_Data_for_JNTUA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gcSmL2HwdhbYr8k0u1-xb5s-_2egPS19JtA2wJf0g7o/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 587327165,
+          "mode": "list",
+          "cachedResultName": "IV CSE A,B,C",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gcSmL2HwdhbYr8k0u1-xb5s-_2egPS19JtA2wJf0g7o/edit#gid=587327165"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        208
+      ],
+      "id": "236510c8-3a78-48f2-aded-19fda03d56c7",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4Do4Xz3P5VrMPzoC",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a71cba4c-5013-4447-8417-b11649000651",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6b4a413c83ee699a9d45ef063beabc0454e93050ec8867aca09fac2590cdc8e6"
+  },
+  "nodeGroups": [],
+  "id": "caolkqk53WoqPoIW",
+  "tags": []
+}
